@@ -1,7 +1,7 @@
 {
   "name": "password-manager",
   "productName": "password-manager",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "ICS0022 - Password Manager",
   "main": ".vite/build/index.js",
   "scripts": {
@@ -9,7 +9,10 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "eslint --ext .ts,.tsx ."
+    "lint": "eslint --ext .ts,.tsx .",
+    "postinstall": "electron-rebuild -f -w better-sqlite3-multiple-ciphers",
+    "rebuild:sqlite:electron": "electron-rebuild -f better-sqlite3-multiple-ciphers",
+    "rebuild:sqlite:node": "npm rebuild better-sqlite3-multiple-ciphers"
   },
   "keywords": [],
   "author": {
@@ -34,6 +37,7 @@
     "@typescript-eslint/parser": "^8.46.0",
     "@vitejs/plugin-vue": "^6.0.1",
     "electron": "38.2.2",
+    "electron-rebuild": "^3.2.9",
     "eslint": "^9.37.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
