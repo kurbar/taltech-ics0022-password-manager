@@ -132,7 +132,7 @@ const hasMinLength = computed(() => masterPassword.value.length >= 12);
 const hasUpperCase = computed(() => /[A-Z]/.test(masterPassword.value));
 const hasLowerCase = computed(() => /[a-z]/.test(masterPassword.value));
 const hasNumber = computed(() => /[0-9]/.test(masterPassword.value));
-const hasSpecial = computed(() => /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(masterPassword.value));
+const hasSpecial = computed(() => /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(masterPassword.value));
 
 const passwordRequirementsMet = computed(() =>
   hasMinLength.value &&

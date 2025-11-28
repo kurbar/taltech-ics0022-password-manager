@@ -121,7 +121,7 @@ function validateMasterPassword(password: string): { valid: boolean; error?: str
   const hasUpperCase = /[A-Z]/.test(password);
   const hasLowerCase = /[a-z]/.test(password);
   const hasNumber = /[0-9]/.test(password);
-  const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+  const hasSpecial = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password);
 
   if (!hasUpperCase || !hasLowerCase || !hasNumber || !hasSpecial) {
     return { valid: false, error: 'Password must contain uppercase, lowercase, number, and special character' };
@@ -188,6 +188,7 @@ ipcMain.handle(INITIALIZE_WITH_PASSWORD, async (_event, masterPassword: string):
     if (!AppDataSource.isInitialized) {
       AppDataSource.setOptions({
         key: databaseKey,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         prepareDatabase: (db: any) => {
           // Configure SQLCipher
           db.pragma(`cipher='sqlcipher'`);
@@ -269,6 +270,7 @@ ipcMain.handle(VERIFY_PASSWORD, async (_event, masterPassword: string): Promise<
     if (!AppDataSource.isInitialized) {
       AppDataSource.setOptions({
         key: databaseKey,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         prepareDatabase: (db: any) => {
           // Configure SQLCipher
           db.pragma(`cipher='sqlcipher'`);

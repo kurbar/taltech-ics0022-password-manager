@@ -29,7 +29,6 @@ console.log('__dirname:', __dirname);
 console.log('Preload exists:', existsSync(entryPoints.preloadEntry));
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
-// eslint-disable-next-line
 if (require('electron-squirrel-startup')) {
   app.quit();
 }
