@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+/* Ensure full height for html and body */
+html, body, #app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
