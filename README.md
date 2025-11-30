@@ -200,7 +200,7 @@ This project is licensed under the MIT License
 
 ---
 
-## 🙏 Acknowledgments
+## 🙏 Credits
 
 Built with:
 - [Electron](https://www.electronjs.org/) - Cross-platform framework
