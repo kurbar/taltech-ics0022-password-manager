@@ -10,6 +10,7 @@ import path from 'path';
 // https://vitejs.dev/config
 // eslint-disable-next-line import/no-unused-modules
 export default defineConfig({
+  base: './',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -18,5 +19,12 @@ export default defineConfig({
   plugins: [
     vue(),
     tailwindcss(),
-  ]
+  ],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: undefined,
+      },
+    },
+  },
 });

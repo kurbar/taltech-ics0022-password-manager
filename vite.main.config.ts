@@ -13,9 +13,8 @@ export default defineConfig({
       external: [
         'electron',
         'better-sqlite3-multiple-ciphers',
+        'reflect-metadata',
         'typeorm',
-        'class-transformer',
-        'class-validator',
         'electron-squirrel-startup',
         'node-machine-id',
         'uuid',

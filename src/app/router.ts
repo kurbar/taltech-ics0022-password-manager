@@ -1,4 +1,7 @@
-import { createMemoryHistory, createRouter } from 'vue-router'
+import {
+  createRouter,
+  createWebHashHistory,
+} from 'vue-router';
 
 import AppLayout from "./views/layouts/AppLayout.vue";
 import SetupView from "./views/setup/SetupView.vue";
@@ -34,6 +37,6 @@ const routes = [
 ]
 
 export const router = createRouter({
-  history: createMemoryHistory(),
+  history: createWebHashHistory(),
   routes,
 })

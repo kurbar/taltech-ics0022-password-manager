@@ -192,7 +192,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onUnmounted } from 'vue';
 import type { PasswordDto, PasswordGeneratorOptions } from '@/shared/password.constants';
 
 const props = defineProps<{
@@ -276,6 +276,14 @@ watch(() => props.password, (newPassword) => {
       password: newPassword.password,
     };
   }
+});
+
+// Clear sensitive data on component unmount
+onUnmounted(() => {
+  form.value.password = '';
+  form.value.username = '';
+  form.value.website = '';
+  errorMessage.value = '';
 });
 </script>
 

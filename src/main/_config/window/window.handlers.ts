@@ -21,7 +21,18 @@ export function createWindow({ preloadEntry, windowEntry }: EntryPoints): void {
   // Enable experimental web platform features for the webpage - only necessary for debugging
   // app.commandLine.appendSwitch('enable-experimental-web-platform-features');
 
-  mainWindow.loadURL(windowEntry);
+  // Convert path to proper file:// URL if it's not already a URL
+  const urlToLoad = windowEntry.startsWith('http')
+    ? windowEntry
+    : `file://${windowEntry}`;
+
+  console.log('Loading URL:', urlToLoad);
+
+  mainWindow.loadURL(urlToLoad).then(() => {
+    console.log('Window URL loaded successfully');
+  }).catch((err) => {
+    console.error('Failed to load window URL:', err);
+  });
 
   console.log('Window loading URL...');
 
@@ -30,6 +41,7 @@ export function createWindow({ preloadEntry, windowEntry }: EntryPoints): void {
   }
   setContentSecurityPolicyHeader(mainWindow);
   showOnceContentHasLoadedAndColorSchemeInitialized(mainWindow);
+  console.log('Window creation initiated');
 }
 
 function showOnceContentHasLoadedAndColorSchemeInitialized(mainWindow: BrowserWindow) {
@@ -44,10 +56,24 @@ function showOnceContentHasLoadedAndColorSchemeInitialized(mainWindow: BrowserWi
     }
   });
 
+  // Log any console messages from renderer for debugging
+  mainWindow.webContents.on('console-message', (event, level, message, line, sourceId) => {
+    console.log(`[Renderer ${level}]:`, message, sourceId ? `(${sourceId}:${line})` : '');
+  });
+
+  // Log errors from renderer
+  mainWindow.webContents.on('render-process-gone', (event, details) => {
+    console.error('Render process gone:', details);
+  });
+
+  mainWindow.webContents.on('unresponsive', () => {
+    console.error('Window became unresponsive');
+  });
+
   // Fallback: show window after 3 seconds if IPC event doesn't fire
   setTimeout(() => {
     if (!hasShown) {
-      console.log('Fallback: showing window after timeout');
+      console.log('Fallback: showing window after timeout (renderer may have failed to initialize properly)');
       hasShown = true;
       mainWindow.show();
       mainWindow.focus();
@@ -56,16 +82,24 @@ function showOnceContentHasLoadedAndColorSchemeInitialized(mainWindow: BrowserWi
 
   // Also show on did-finish-load as additional fallback
   mainWindow.webContents.on('did-finish-load', () => {
-    console.log('Window finished loading');
+    console.log('Window finished loading HTML');
+  });
+
+  // Track failed loads
+  mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedURL) => {
+    console.error('Failed to load:', errorCode, errorDescription, validatedURL);
   });
 }
 
 function setContentSecurityPolicyHeader(mainWindow: BrowserWindow) {
   // Note: 'unsafe-inline' for styles is kept for Tailwind compatibility
-  // Consider moving to nonce-based approach in production
+  // 'unsafe-eval' for script-src may be needed for development but should be avoided in production
+  const isPackaged = app.isPackaged;
+
   const CSP = [
     "default-src 'self'",
-    "script-src 'self'",
+    // For production builds, we need to allow inline scripts from Vite build
+    `script-src 'self' ${isPackaged ? "'unsafe-inline'" : ""}`,
     "worker-src 'self' blob:",
     "connect-src 'self'",
     "img-src 'self' data:",
@@ -76,7 +110,8 @@ function setContentSecurityPolicyHeader(mainWindow: BrowserWindow) {
     "base-uri 'self'",
     "form-action 'self'",
     "frame-ancestors 'none'",
-    "upgrade-insecure-requests"
+    // Remove upgrade-insecure-requests for file:// protocol in packaged app
+    ...(isPackaged ? [] : ["upgrade-insecure-requests"])
   ].join('; ');
 
   mainWindow.webContents.session.webRequest.onHeadersReceived((details, callback) => {
