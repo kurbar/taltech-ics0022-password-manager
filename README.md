@@ -186,14 +186,6 @@ Contributions are welcome! Please:
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-### Security Issues
-
-⚠️ **Do not open public issues for security vulnerabilities.**
-
-Please email security concerns to: [kaviib@taltech.ee](mailto:kaviib@taltech.ee)
-
----
-
 ## 📜 License
 
 This project is licensed under the MIT License
@@ -213,11 +205,3 @@ Built with:
 Security guidelines from:
 - [NIST](https://www.nist.gov/) - National Institute of Standards and Technology
 - [OWASP](https://owasp.org/) - Open Web Application Security Project
-
----
-
-## 📞 Support
-
-- **Issues:** [GitHub Issues](https://github.com/kurbar/password-manager/issues)
-- **Discussions:** [GitHub Discussions](https://github.com/kurbar/password-manager/discussions)
-
