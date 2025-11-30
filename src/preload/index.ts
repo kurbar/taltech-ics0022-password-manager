@@ -13,6 +13,10 @@ const apiChannel = {
 
 export type Api = typeof apiChannel;
 
-console.log('Exposing API to main world:', apiChannel);
-contextBridge.exposeInMainWorld('api', apiChannel);
-console.log('API exposed successfully');
+try {
+  console.log('Exposing API to main world:', apiChannel);
+  contextBridge.exposeInMainWorld('api', apiChannel);
+  console.log('API exposed successfully');
+} catch (error) {
+  console.error('Failed to expose API:', error);
+}

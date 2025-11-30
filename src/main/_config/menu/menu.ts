@@ -1,5 +1,5 @@
 import { isMacOS } from '@/utils/electron.util';
-import { app, Menu, MenuItemConstructorOptions, shell } from 'electron';
+import { app, Menu, MenuItemConstructorOptions } from 'electron';
 
 function createApplicationMenuTemplate() {
   const template: MenuItemConstructorOptions[] = [
@@ -18,17 +18,6 @@ function createApplicationMenuTemplate() {
     {
       label: 'common.menu.window.title',
       role: 'windowMenu',
-    },
-    {
-      label: 'common.menu.help.title',
-      submenu: [
-        {
-          label: 'common.menu.help.submenu.learn',
-          click: () => {
-            shell.openExternal('https://myoton.com/quick-guide/');
-          },
-        },
-      ],
     },
   ];
   if (isMacOS) {

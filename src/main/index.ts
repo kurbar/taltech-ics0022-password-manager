@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { app } from 'electron';
 import path from 'path';
 import { existsSync } from 'fs';
@@ -14,19 +15,32 @@ export interface EntryPoints {
   windowEntry: string;
 }
 
-declare const MAIN_WINDOW_VITE_DEV_SERVER_URL: string;
-declare const MAIN_WINDOW_VITE_NAME: string;
+declare const MAIN_WINDOW_VITE_DEV_SERVER_URL: string | undefined;
+declare const MAIN_WINDOW_VITE_NAME: string | undefined;
+
+// Determine the correct window entry point
+let windowEntry: string;
+if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
+  // Development mode
+  windowEntry = MAIN_WINDOW_VITE_DEV_SERVER_URL;
+  console.log('Using dev server URL:', windowEntry);
+} else {
+  // Production mode - construct path to built renderer
+  const rendererName = MAIN_WINDOW_VITE_NAME || 'main_window';
+  windowEntry = path.join(__dirname, `../renderer/${rendererName}/index.html`);
+  console.log('Using production renderer path:', windowEntry);
+  console.log('MAIN_WINDOW_VITE_NAME:', MAIN_WINDOW_VITE_NAME);
+}
 
 const entryPoints: EntryPoints = {
   preloadEntry: path.join(__dirname, 'preload.js'),
-  windowEntry:
-    MAIN_WINDOW_VITE_DEV_SERVER_URL ??
-    path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`),
+  windowEntry,
 };
 
 console.log('Entry points:', entryPoints);
 console.log('__dirname:', __dirname);
 console.log('Preload exists:', existsSync(entryPoints.preloadEntry));
+console.log('Window entry exists:', existsSync(entryPoints.windowEntry));
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
