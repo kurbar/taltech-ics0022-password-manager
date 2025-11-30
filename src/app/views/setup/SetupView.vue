@@ -114,7 +114,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useApplicationStore } from '@/app/stores/application.store';
 
@@ -230,4 +230,11 @@ async function handleSubmit() {
     isSubmitting.value = false;
   }
 }
+
+// Clear sensitive data on component unmount
+onUnmounted(() => {
+  masterPassword.value = '';
+  confirmPassword.value = '';
+  errorMessage.value = '';
+});
 </script>

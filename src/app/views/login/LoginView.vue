@@ -49,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useApplicationStore } from '@/app/stores/application.store';
 
@@ -96,5 +96,11 @@ async function handleSubmit() {
     isSubmitting.value = false;
   }
 }
+
+// Clear sensitive data on component unmount
+onUnmounted(() => {
+  masterPassword.value = '';
+  errorMessage.value = '';
+});
 </script>
 
