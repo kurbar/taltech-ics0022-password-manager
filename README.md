@@ -1,3 +1,13 @@
+## ⚠️ Disclaimer
+
+This was a school project and is intended for educational purposes only. While security best practices have been followed, this software has not undergone formal security audits. Use at your own risk.
+
+This password manager is provided "as is" without warranty. Always maintain backups of critical passwords. The authors are not responsible for data loss or security breaches resulting from the use of this software.
+
+**Remember:** Your master password cannot be recovered if lost. Choose a strong, memorable password and store it securely.
+
+---
+
 # 🔐 Secure Password Manager
 
 A cross-platform password manager built with Electron, Vue 3, TypeScript, and SQLCipher.
@@ -187,14 +197,6 @@ Please email security concerns to: [kaviib@taltech.ee](mailto:kaviib@taltech.ee)
 ## 📜 License
 
 This project is licensed under the MIT License
-
----
-
-## ⚠️ Disclaimer
-
-This password manager is provided "as is" without warranty. Always maintain backups of critical passwords. The authors are not responsible for data loss or security breaches resulting from the use of this software.
-
-**Remember:** Your master password cannot be recovered if lost. Choose a strong, memorable password and store it securely.
 
 ---
 
