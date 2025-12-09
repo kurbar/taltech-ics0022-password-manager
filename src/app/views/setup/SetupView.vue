@@ -46,7 +46,7 @@
         <div v-if="masterPassword" class="space-y-2">
           <div class="flex justify-between text-sm">
             <span class="text-gray-600">Password Strength:</span>
-            <span :class="strengthColor" class="font-medium">{{ strengthText }}</span>
+            <span :class="strengthColor" class="px-2 py-1 font-medium">{{ strengthText }}</span>
           </div>
           <div class="w-full bg-gray-200 rounded-full h-2">
             <div
@@ -181,11 +181,11 @@ const strengthText = computed(() => {
 
 const strengthColor = computed(() => {
   const strength = passwordStrength.value;
-  if (strength < 40) return 'text-red-600 bg-red-600';
-  if (strength < 60) return 'text-orange-600 bg-orange-600';
-  if (strength < 80) return 'text-yellow-600 bg-yellow-600';
-  if (strength < 100) return 'text-green-600 bg-green-600';
-  return 'text-emerald-600 bg-emerald-600';
+  if (strength < 40) return 'text-white bg-red-600';
+  if (strength < 60) return 'text-white bg-orange-600';
+  if (strength < 80) return 'text-white bg-yellow-600';
+  if (strength < 100) return 'text-white bg-green-600';
+  return 'text-white bg-emerald-600';
 });
 
 function validatePassword() {

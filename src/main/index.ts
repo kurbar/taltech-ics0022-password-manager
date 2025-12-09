@@ -8,6 +8,7 @@ import {
 } from '@/main/_config/window/window.handlers';
 import { updateApplicationMenu } from '@/main/_config/menu/menu';
 import { initializeApp } from './_config/init';
+import { closeDatabaseConnection } from '@/database/database';
 import './_config/controllers';
 
 export interface EntryPoints {
@@ -52,5 +53,11 @@ app.on('ready', () => initializeApp(entryPoints));
 app.on('window-all-closed', handleAllWindowsClosed);
 
 app.on('activate', () => activateWindow(entryPoints));
+
+// Auto-lock: Close database connection when app quits
+app.on('before-quit', async () => {
+  console.log('Application quitting - closing database connection (auto-lock)');
+  await closeDatabaseConnection();
+});
 
 updateApplicationMenu();
